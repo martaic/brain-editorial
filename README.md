@@ -88,6 +88,7 @@ Este repositorio forma parte del **Content OS de QuantumSec** — fase F2 (Brain
 | [Quantumsec](https://github.com/martaic/Quantumsec) | Código de animaciones Remotion y scripts Python |
 | [Calendario-editorial](https://github.com/martaic/Calendario-editorial) | Calendario semanal de contenido |
 | [stock-videos](https://github.com/martaic/stock-videos) | Banco de vídeos de stock para MoneyPrinterTurbo |
+| [quantumsec-content-bot](https://github.com/martaic/quantumsec-content-bot) | Bot que genera el calendario editorial automáticamente cada domingo |
 | **brain-editorial** | Este repositorio — estrategia y métricas |
 
 ---
