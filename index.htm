@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantumSec — Brain Editorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06010F;
+  --panel: #100820;
+  --card: #180D2E;
+  --border: #2E1A4A;
+  --text: #F0EBFF;
+  --muted: rgba(240,235,255,0.5);
+  --faint: rgba(240,235,255,0.1);
+  --green: #A8FF3E;
+  --pink: #FF2E9A;
+  --cyan: #29F1FF;
+  --yellow: #FFD93D;
+  --purple: #B97FFF;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+/* TOPBAR */
+.topbar { position: sticky; top: 0; z-index: 100; background: rgba(6,1,15,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0.9rem 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.logo { font-family: var(--mono); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; color: var(--green); }
+.logo span { color: var(--muted); }
+.nav { display: flex; gap: 0.5rem; margin-left: auto; flex-wrap: wrap; }
+.nav a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; padding: 0.3rem 0.7rem; border-radius: 6px; border: 1px solid var(--border); transition: all .2s; }
+.nav a:hover { color: var(--green); border-color: var(--green); background: rgba(168,255,62,0.08); }
+
+/* HERO */
+.hero { padding: 3rem 1.5rem 2rem; border-bottom: 1px solid var(--border); }
+.hero-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.75rem; }
+.hero-title { font-size: 2.2rem; font-weight: 700; line-height: 1.15; margin-bottom: 0.5rem; }
+.hero-title em { font-style: normal; color: var(--cyan); }
+.hero-sub { font-size: 0.9rem; color: var(--muted); max-width: 600px; line-height: 1.6; }
+
+/* SECCIONES */
+.section { padding: 2rem 1.5rem; border-bottom: 1px solid var(--border); }
+.section-header { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.5rem; }
+.section-title { font-size: 1.1rem; font-weight: 700; }
+.section-badge { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 999px; }
+.badge-green { background: rgba(168,255,62,0.15); color: var(--green); border: 1px solid rgba(168,255,62,0.3); }
+.badge-cyan { background: rgba(41,241,255,0.15); color: var(--cyan); border: 1px solid rgba(41,241,255,0.3); }
+.badge-yellow { background: rgba(255,217,61,0.15); color: var(--yellow); border: 1px solid rgba(255,217,61,0.3); }
+.badge-purple { background: rgba(185,127,255,0.15); color: var(--purple); border: 1px solid rgba(185,127,255,0.3); }
+.badge-pink { background: rgba(255,46,154,0.15); color: var(--pink); border: 1px solid rgba(255,46,154,0.3); }
+
+/* GRID HORARIOS */
+.platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 700px) { .platform-grid { grid-template-columns: 1fr; } }
+
+.platform-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+.platform-name { font-family: var(--mono); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.platform-name .dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-linkedin { background: #0A66C2; }
+.dot-instagram { background: #E1306C; }
+
+/* GRID HORARIOS POR DÍA */
+.day-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem; margin-bottom: 1rem; }
+.day-col { display: flex; flex-direction: column; gap: 0.3rem; }
+.day-label { font-family: var(--mono); font-size: 0.6rem; text-align: center; color: var(--muted); text-transform: uppercase; margin-bottom: 0.3rem; }
+.hour-slot { height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.55rem; color: var(--muted); border: 1px solid var(--border); background: var(--panel); }
+.hour-slot.hot { background: rgba(168,255,62,0.2); border-color: rgba(168,255,62,0.5); color: var(--green); font-weight: 600; }
+.hour-slot.warm { background: rgba(255,217,61,0.1); border-color: rgba(255,217,61,0.3); color: var(--yellow); }
+.hour-slot.cold { background: rgba(255,46,154,0.05); border-color: rgba(255,46,154,0.1); color: var(--pink); opacity: 0.5; }
+
+.legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+/* TABLA FORMATOS */
+.format-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+.format-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+.format-type { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.format-score { font-size: 1.8rem; font-weight: 700; line-height: 1; margin-bottom: 0.4rem; }
+.format-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+/* HASHTAGS */
+.hashtag-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.hashtag { font-family: var(--mono); font-size: 0.72rem; padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--panel); border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all .2s; }
+.hashtag:hover { color: var(--cyan); border-color: var(--cyan); background: rgba(41,241,255,0.08); }
+.hashtag.top { color: var(--green); border-color: rgba(168,255,62,0.4); background: rgba(168,255,62,0.08); }
+.hashtag.med { color: var(--yellow); border-color: rgba(255,217,61,0.3); background: rgba(255,217,61,0.06); }
+
+/* TABLA INSIGHTS */
+.insight-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.insight { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; display: flex; gap: 1rem; align-items: flex-start; }
+.insight-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+.insight-body { flex: 1; }
+.insight-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
+.insight-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+.insight-source { font-family: var(--mono); font-size: 0.6rem; color: var(--purple); margin-top: 0.4rem; }
+
+/* TRACKER */
+.tracker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; padding: 0.45rem 1rem; border-radius: 8px; cursor: pointer; border: none; transition: all .2s; }
+.btn-primary { background: rgba(168,255,62,0.15); color: var(--green); border: 1px solid rgba(168,255,62,0.4); }
+.btn-primary:hover { background: rgba(168,255,62,0.25); }
+
+.tracker-table { width: 100%; border-collapse: collapse; }
+.tracker-table th { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+.tracker-table td { padding: 0.75rem; font-size: 0.8rem; border-bottom: 1px solid var(--faint); vertical-align: middle; }
+.tracker-table tr:last-child td { border-bottom: none; }
+.tracker-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.type-badge { font-family: var(--mono); font-size: 0.6rem; padding: 0.2rem 0.5rem; border-radius: 999px; }
+.type-video { background: rgba(185,127,255,0.15); color: var(--purple); }
+.type-carrusel { background: rgba(41,241,255,0.15); color: var(--cyan); }
+.type-post { background: rgba(168,255,62,0.15); color: var(--green); }
+.type-short { background: rgba(255,46,154,0.15); color: var(--pink); }
+
+.rating { display: flex; gap: 2px; }
+.star { color: var(--yellow); font-size: 0.8rem; }
+.star.empty { color: var(--border); }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(6,1,15,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; max-width: 480px; width: 100%; padding: 1.5rem; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+.modal-title { font-weight: 700; font-size: 1rem; }
+.modal-close { background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; }
+.modal-close:hover { color: var(--text); }
+.form-group { margin-bottom: 1rem; }
+.form-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; display: block; }
+.form-input, .form-select, .form-textarea { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.75rem; color: var(--text); font-family: var(--sans); font-size: 0.82rem; outline: none; transition: border-color .2s; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--green); }
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem; }
+.btn-cancel { background: var(--card); color: var(--muted); border: 1px solid var(--border); }
+
+/* KPIs */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+.kpi-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+.kpi-value { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+.kpi-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; }
+.kpi-target { font-family: var(--mono); font-size: 0.6rem; color: var(--purple); margin-top: 0.2rem; }
+
+/* EMPTY */
+.empty { text-align: center; padding: 3rem 1rem; color: var(--muted); font-family: var(--mono); font-size: 0.8rem; }
+.empty-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4; }
+
+::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">QUANTUMSEC <span>// BRAIN EDITORIAL</span></div>
+  <nav class="nav">
+    <a href="#horarios">Horarios</a>
+    <a href="#formatos">Formatos</a>
+    <a href="#hashtags">Hashtags</a>
+    <a href="#insights">Insights</a>
+    <a href="#tracker">Tracker</a>
+    <a href="#kpis">KPIs</a>
+  </nav>
+</div>
+
+<div class="hero">
+  <div class="hero-label">F2 — Brain Editorial</div>
+  <h1 class="hero-title">Estrategia de <em>publicación</em><br>ciberseguridad B2B España</h1>
+  <p class="hero-sub">Datos actualizados 2026 sobre horarios, formatos, hashtags y rendimiento para LinkedIn e Instagram. Sin acceso a Analytics — basado en estudios de mercado del sector.</p>
+</div>
+
+<!-- HORARIOS -->
+<section class="section" id="horarios">
+  <div class="section-header">
+    <h2 class="section-title">Mejores horarios</h2>
+    <span class="section-badge badge-green">España 2026</span>
+  </div>
+
+  <div class="platform-grid">
+
+    <!-- LINKEDIN -->
+    <div class="platform-card">
+      <div class="platform-name">
+        <div class="dot dot-linkedin"></div>
+        LinkedIn B2B
+      </div>
+      <div class="day-grid">
+        <div class="day-col">
+          <div class="day-label">LUN</div>
+          <div class="hour-slot warm">7:30</div>
+          <div class="hour-slot cold">12:00</div>
+          <div class="hour-slot cold">17:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">MAR</div>
+          <div class="hour-slot hot">8:00</div>
+          <div class="hour-slot hot">12:30</div>
+          <div class="hour-slot warm">17:30</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">MIÉ</div>
+          <div class="hour-slot hot">10:00</div>
+          <div class="hour-slot hot">13:00</div>
+          <div class="hour-slot warm">18:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">JUE</div>
+          <div class="hour-slot hot">9:00</div>
+          <div class="hour-slot warm">12:00</div>
+          <div class="hour-slot hot">18:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">VIE</div>
+          <div class="hour-slot warm">8:00</div>
+          <div class="hour-slot cold">12:00</div>
+          <div class="hour-slot cold">17:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">SÁB</div>
+          <div class="hour-slot cold">—</div>
+          <div class="hour-slot cold">—</div>
+          <div class="hour-slot cold">—</div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(168,255,62,0.5)"></div>Óptimo</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,217,61,0.4)"></div>Bueno</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,46,154,0.2)"></div>Evitar</div>
+      </div>
+      <div style="margin-top:1rem; padding:0.75rem; background:rgba(168,255,62,0.06); border-radius:8px; border:1px solid rgba(168,255,62,0.2)">
+        <div style="font-family:var(--mono);font-size:0.65rem;color:var(--green);margin-bottom:0.3rem">MEJOR MOMENTO</div>
+        <div style="font-size:0.8rem;color:var(--text)">Miércoles 10:00 — mayor alcance orgánico en España según Metricool 2026</div>
+      </div>
+    </div>
+
+    <!-- INSTAGRAM -->
+    <div class="platform-card">
+      <div class="platform-name">
+        <div class="dot dot-instagram"></div>
+        Instagram / Reels
+      </div>
+      <div class="day-grid">
+        <div class="day-col">
+          <div class="day-label">LUN</div>
+          <div class="hour-slot warm">9:00</div>
+          <div class="hour-slot hot">12:00</div>
+          <div class="hour-slot warm">19:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">MAR</div>
+          <div class="hour-slot warm">10:00</div>
+          <div class="hour-slot hot">13:00</div>
+          <div class="hour-slot hot">20:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">MIÉ</div>
+          <div class="hour-slot hot">11:00</div>
+          <div class="hour-slot hot">14:00</div>
+          <div class="hour-slot hot">20:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">JUE</div>
+          <div class="hour-slot warm">11:00</div>
+          <div class="hour-slot warm">13:00</div>
+          <div class="hour-slot hot">19:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">VIE</div>
+          <div class="hour-slot warm">10:00</div>
+          <div class="hour-slot warm">14:00</div>
+          <div class="hour-slot warm">19:00</div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">DOM</div>
+          <div class="hour-slot cold">—</div>
+          <div class="hour-slot cold">—</div>
+          <div class="hour-slot warm">20:00</div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(168,255,62,0.5)"></div>Óptimo</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,217,61,0.4)"></div>Bueno</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,46,154,0.2)"></div>Evitar</div>
+      </div>
+      <div style="margin-top:1rem; padding:0.75rem; background:rgba(41,241,255,0.06); border-radius:8px; border:1px solid rgba(41,241,255,0.2)">
+        <div style="font-family:var(--mono);font-size:0.65rem;color:var(--cyan);margin-bottom:0.3rem">REELS — MEJOR MOMENTO</div>
+        <div style="font-size:0.8rem;color:var(--text)">Miércoles y jueves 19:00-21:00 — mayor alcance inicial para vídeos cortos</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FORMATOS -->
+<section class="section" id="formatos">
+  <div class="section-header">
+    <h2 class="section-title">Rendimiento por formato</h2>
+    <span class="section-badge badge-cyan">Ciberseguridad B2B</span>
+  </div>
+
+  <div class="format-grid">
+    <div class="format-card">
+      <div class="format-type" style="color:var(--cyan)">Carrusel LinkedIn</div>
+      <div class="format-score" style="color:var(--green)">★★★★★</div>
+      <div class="format-desc">El formato con más alcance orgánico en LinkedIn para B2B. Genera guardados y compartidos. Ideal para temas técnicos con datos.</div>
+    </div>
+    <div class="format-card">
+      <div class="format-type" style="color:var(--purple)">Vídeo corto Reels</div>
+      <div class="format-score" style="color:var(--green)">★★★★★</div>
+      <div class="format-desc">Motor de descubrimiento en Instagram. Menos de 30 segundos. Primeros 3 segundos son críticos para la retención.</div>
+    </div>
+    <div class="format-card">
+      <div class="format-type" style="color:var(--yellow)">Post texto LinkedIn</div>
+      <div class="format-score" style="color:var(--yellow)">★★★☆☆</div>
+      <div class="format-desc">Funciona bien para thought leadership y reflexiones. Máximo 1.200 caracteres para no truncar. Añadir pregunta al final.</div>
+    </div>
+    <div class="format-card">
+      <div class="format-type" style="color:var(--pink)">Imagen + texto</div>
+      <div class="format-score" style="color:var(--yellow)">★★★☆☆</div>
+      <div class="format-desc">Útil para posts de datos con infografía. Menor alcance que carrusel pero más fácil de producir. Bueno para estadísticas.</div>
+    </div>
+    <div class="format-card">
+      <div class="format-type" style="color:var(--green)">Vídeo animado</div>
+      <div class="format-score" style="color:var(--cyan)">★★★★☆</div>
+      <div class="format-desc">Alta retención si el hook es fuerte. Remotion permite personalización total. Ideal para explicar conceptos técnicos visualmente.</div>
+    </div>
+    <div class="format-card">
+      <div class="format-type" style="color:var(--muted)">Stories Instagram</div>
+      <div class="format-score" style="color:var(--muted)">★★☆☆☆</div>
+      <div class="format-desc">Bajo alcance para B2B en ciberseguridad. Útil solo para engagement con seguidores existentes. No priorizar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HASHTAGS -->
+<section class="section" id="hashtags">
+  <div class="section-header">
+    <h2 class="section-title">Hashtags recomendados</h2>
+    <span class="section-badge badge-yellow">Por plataforma 2026</span>
+  </div>
+
+  <!-- LINKEDIN -->
+  <div style="margin-bottom:2rem">
+    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+      <div style="width:10px;height:10px;border-radius:50%;background:#0A66C2"></div>
+      <span style="font-family:var(--mono);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text)">LinkedIn</span>
+      <span style="font-family:var(--mono);font-size:0.62rem;color:var(--muted)">— usar 3-5 por post</span>
+    </div>
+
+    <div style="margin-bottom:0.75rem">
+      <div style="font-family:var(--mono);font-size:0.62rem;color:var(--green);margin-bottom:0.4rem;letter-spacing:0.08em">GRAN ALCANCE — millones de seguidores</div>
+      <div class="hashtag-grid">
+        <span class="hashtag top">#Cybersecurity <span style="font-size:0.55rem;opacity:0.6">1.5M+</span></span>
+        <span class="hashtag top">#Technology <span style="font-size:0.55rem;opacity:0.6">4.2M+</span></span>
+        <span class="hashtag top">#InfoSec <span style="font-size:0.55rem;opacity:0.6">400K+</span></span>
+        <span class="hashtag top">#Compliance <span style="font-size:0.55rem;opacity:0.6">600K+</span></span>
+        <span class="hashtag top">#DataSecurity <span style="font-size:0.55rem;opacity:0.6">200K+</span></span>
+        <span class="hashtag top">#ciberseguridad <span style="font-size:0.55rem;opacity:0.6">ES</span></span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:0.75rem">
+      <div style="font-family:var(--mono);font-size:0.62rem;color:var(--yellow);margin-bottom:0.4rem;letter-spacing:0.08em">NICHO B2B — alta calidad de engagement, llegan a decisores</div>
+      <div class="hashtag-grid">
+        <span class="hashtag med">#CISO</span>
+        <span class="hashtag med">#CloudSecurity</span>
+        <span class="hashtag med">#ZeroTrust</span>
+        <span class="hashtag med">#ThreatIntelligence</span>
+        <span class="hashtag med">#IncidentResponse</span>
+        <span class="hashtag med">#SecurityAwareness</span>
+        <span class="hashtag med">#DataProtection</span>
+        <span class="hashtag med">#CyberAttack</span>
+        <span class="hashtag med">#seguridadinformatica</span>
+        <span class="hashtag med">#protecciondedatos</span>
+        <span class="hashtag med">#NIS2</span>
+        <span class="hashtag med">#RGPD</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:0.75rem">
+      <div style="font-family:var(--mono);font-size:0.62rem;color:var(--muted);margin-bottom:0.4rem;letter-spacing:0.08em">SEGÚN TEMA — rotar dependiendo del contenido</div>
+      <div class="hashtag-grid">
+        <span class="hashtag">#ransomware</span>
+        <span class="hashtag">#phishing</span>
+        <span class="hashtag">#malware</span>
+        <span class="hashtag">#SOC</span>
+        <span class="hashtag">#pentesting</span>
+        <span class="hashtag">#ciberresiliencia</span>
+        <span class="hashtag">#transformaciondigital</span>
+        <span class="hashtag">#IAciberseguridad</span>
+        <span class="hashtag">#pymes</span>
+        <span class="hashtag">#ciberataques</span>
+        <span class="hashtag">#INCIBE</span>
+        <span class="hashtag">#QuantumSec</span>
+      </div>
+    </div>
+
+    <div style="padding:0.75rem;background:rgba(10,102,194,0.08);border-radius:8px;border:1px solid rgba(10,102,194,0.2);font-size:0.78rem;color:var(--muted)">
+      💡 <strong style="color:var(--text)">Combinación ideal:</strong> 1 grande (#Cybersecurity) + 1-2 nicho B2B (#CISO, #ZeroTrust) + 1 en español (#ciberseguridad). Máximo 5.
+    </div>
+  </div>
+
+  <!-- INSTAGRAM -->
+  <div>
+    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+      <div style="width:10px;height:10px;border-radius:50%;background:#E1306C"></div>
+      <span style="font-family:var(--mono);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text)">Instagram / Reels</span>
+      <span style="font-family:var(--mono);font-size:0.62rem;color:var(--muted)">— usar 8-15 por post</span>
+    </div>
+
+    <div style="margin-bottom:0.75rem">
+      <div style="font-family:var(--mono);font-size:0.62rem;color:var(--green);margin-bottom:0.4rem;letter-spacing:0.08em">ALTO ALCANCE — gran volumen de búsquedas</div>
+      <div class="hashtag-grid">
+        <span class="hashtag top">#ciberseguridad</span>
+        <span class="hashtag top">#cybersecurity</span>
+        <span class="hashtag top">#hacking</span>
+        <span class="hashtag top">#tecnologia</span>
+        <span class="hashtag top">#seguridad</span>
+        <span class="hashtag top">#informatica</span>
+        <span class="hashtag top">#hackers</span>
+        <span class="hashtag top">#internet</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:0.75rem">
+      <div style="font-family:var(--mono);font-size:0.62rem;color:var(--yellow);margin-bottom:0.4rem;letter-spacing:0.08em">MEDIA — relevancia específica del sector</div>
+      <div class="hashtag-grid">
+        <span class="hashtag med">#ethicalhacking</span>
+        <span class="hashtag med">#hackingetico</span>
+        <span class="hashtag med">#cyberattack</span>
+        <span class="hashtag med">#ransomware</span>
+        <span class="hashtag med">#phishing</span>
+        <span class="hashtag med">#malware</span>
+        <span class="hashtag med">#firewall</span>
+        <span class="hashtag med">#seguridaddigital</span>
+        <span class="hashtag med">#protecciondedatos</span>
+        <span class="hashtag med">#empresas</span>
+        <span class="hashtag med">#negocios</span>
+        <span class="hashtag med">#software</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:0.75rem">
+      <div style="font-family:var(--mono);font-size:0.62rem;color:var(--muted);margin-bottom:0.4rem;letter-spacing:0.08em">NICHO — para llegar a profesionales del sector</div>
+      <div class="hashtag-grid">
+        <span class="hashtag">#infosec</span>
+        <span class="hashtag">#endpoint</span>
+        <span class="hashtag">#spyware</span>
+        <span class="hashtag">#hackday</span>
+        <span class="hashtag">#programacion</span>
+        <span class="hashtag">#developer</span>
+        <span class="hashtag">#microsoft</span>
+        <span class="hashtag">#linux</span>
+        <span class="hashtag">#cloudsecurity</span>
+        <span class="hashtag">#ingenieriasocial</span>
+        <span class="hashtag">#NIS2</span>
+        <span class="hashtag">#QuantumSec</span>
+      </div>
+    </div>
+
+    <div style="padding:0.75rem;background:rgba(225,48,108,0.08);border-radius:8px;border:1px solid rgba(225,48,108,0.2);font-size:0.78rem;color:var(--muted)">
+      💡 <strong style="color:var(--text)">Combinación ideal:</strong> 4-5 alto alcance + 5-6 media relevancia + 2-3 nicho. Siempre incluir #ciberseguridad y #cybersecurity. Total: 10-12 hashtags por Reel.
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="section" id="insights">
+  <div class="section-header">
+    <h2 class="section-title">Insights del sector</h2>
+    <span class="section-badge badge-purple">Datos 2026</span>
+  </div>
+
+  <div class="insight-list">
+    <div class="insight">
+      <div class="insight-icon">⚡</div>
+      <div class="insight-body">
+        <div class="insight-title">Los primeros 60-90 minutos son decisivos en LinkedIn</div>
+        <div class="insight-desc">El algoritmo evalúa el engagement inicial para decidir si amplía el alcance. Publicar en horario óptimo puede generar hasta un 48% más de impresiones que en horario muerto.</div>
+        <div class="insight-source">Fuente: Sprout Social 2026 — análisis de +30.000 cuentas</div>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🎯</div>
+      <div class="insight-body">
+        <div class="insight-title">Nunca publicar dos posts en LinkedIn con menos de 18h de separación</div>
+        <div class="insight-desc">El algoritmo penaliza la saturación. Un post por día máximo. La consistencia semanal importa más que el volumen diario.</div>
+        <div class="insight-source">Fuente: Growth LinkedIn 2026</div>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">📱</div>
+      <div class="insight-body">
+        <div class="insight-title">Los Reels de menos de 30 segundos superan a los largos en ciberseguridad</div>
+        <div class="insight-desc">El contenido técnico B2B funciona mejor corto y directo. Hook en los primeros 3 segundos obligatorio. El dato impactante al inicio retiene más que la introducción explicativa.</div>
+        <div class="insight-source">Fuente: Meta/Instagram Business 2026</div>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🔁</div>
+      <div class="insight-body">
+        <div class="insight-title">El carrusel genera 3x más guardados que el post de imagen en LinkedIn</div>
+        <div class="insight-desc">Los guardados son la señal de calidad más valorada por el algoritmo de LinkedIn. Un carrusel educativo sobre NIS2, RGPD o ransomware con datos reales genera autoridad y alcance.</div>
+        <div class="insight-source">Fuente: Metricool Analysis España 2026</div>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">📊</div>
+      <div class="insight-body">
+        <div class="insight-title">Tecnología B2B: martes a jueves 10:00-13:00 en Instagram</div>
+        <div class="insight-desc">Los profesionales de IT y seguridad consultan Instagram durante pausas laborales. El contenido de ciberseguridad B2B rinde mejor en horario de oficina que por la noche.</div>
+        <div class="insight-source">Fuente: Sprout Social Sector Analysis 2026</div>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🚫</div>
+      <div class="insight-body">
+        <div class="insight-title">Evitar publicar en LinkedIn los lunes y viernes</div>
+        <div class="insight-desc">El engagement cae un 30-50% los lunes (la gente arranca la semana) y los viernes (modo desconexión). Sábado y domingo son prácticamente territorio muerto para B2B.</div>
+        <div class="insight-source">Fuente: Clonio / SociaPilot España 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKER -->
+<section class="section" id="tracker">
+  <div class="tracker-header">
+    <div class="section-header" style="margin-bottom:0">
+      <h2 class="section-title">Tracker de contenido</h2>
+      <span class="section-badge badge-pink">Manual</span>
+    </div>
+    <button class="btn btn-primary" onclick="openModal()">+ Añadir pieza</button>
+  </div>
+
+  <div style="overflow-x:auto">
+    <table class="tracker-table" id="trackerTable">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Título</th>
+          <th>Tipo</th>
+          <th>Plataforma</th>
+          <th>Horario</th>
+          <th>Valoración</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody id="trackerBody">
+        <tr>
+          <td colspan="7">
+            <div class="empty">
+              <div class="empty-icon">📋</div>
+              Aún no hay piezas registradas. Añade la primera cuando publiques.
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- KPIs -->
+<section class="section" id="kpis">
+  <div class="section-header">
+    <h2 class="section-title">KPIs objetivo</h2>
+    <span class="section-badge badge-green">Del documento</span>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Piezas / semana</div>
+      <div class="kpi-value" style="color:var(--green)">0</div>
+      <div class="kpi-sub">publicadas esta semana</div>
+      <div class="kpi-target">objetivo: ≥20 piezas/semana</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Tiempo raw → publicable</div>
+      <div class="kpi-value" style="color:var(--cyan)">—</div>
+      <div class="kpi-sub">minutos de media</div>
+      <div class="kpi-target">objetivo MVP: &lt;30 min</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Tasa aprobación</div>
+      <div class="kpi-value" style="color:var(--yellow)">—</div>
+      <div class="kpi-sub">sin edición manual</div>
+      <div class="kpi-target">objetivo: &gt;50%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Hook rate shorts</div>
+      <div class="kpi-value" style="color:var(--pink)">—</div>
+      <div class="kpi-sub">retención a 3 segundos</div>
+      <div class="kpi-target">objetivo: &gt;60%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Plataformas / pieza</div>
+      <div class="kpi-value" style="color:var(--purple)">2</div>
+      <div class="kpi-sub">LinkedIn + Instagram</div>
+      <div class="kpi-target">objetivo: ≥3 plataformas</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Design system</div>
+      <div class="kpi-value" style="color:var(--green)">95%</div>
+      <div class="kpi-sub">consistencia visual</div>
+      <div class="kpi-target">objetivo: &gt;95%</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL AÑADIR PIEZA -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Añadir pieza publicada</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Título / tema</label>
+      <input class="form-input" id="f-titulo" placeholder="Ej: Inditex hackeada por proveedor inactivo" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Fecha</label>
+        <input class="form-input" id="f-fecha" type="date" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Horario</label>
+        <input class="form-input" id="f-hora" type="time" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Tipo</label>
+        <select class="form-select" id="f-tipo">
+          <option value="carrusel">Carrusel</option>
+          <option value="video">Vídeo animado</option>
+          <option value="short">Short / Reel</option>
+          <option value="post">Post LinkedIn</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Plataforma</label>
+        <select class="form-select" id="f-plataforma">
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Ambas">Ambas</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Valoración (1-5)</label>
+      <select class="form-select" id="f-rating">
+        <option value="5">⭐⭐⭐⭐⭐ Muy bien</option>
+        <option value="4">⭐⭐⭐⭐ Bien</option>
+        <option value="3">⭐⭐⭐ Normal</option>
+        <option value="2">⭐⭐ Flojo</option>
+        <option value="1">⭐ Mal</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notas / observaciones</label>
+      <textarea class="form-textarea" id="f-notas" placeholder="Qué funcionó, qué no, ideas para mejorar..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="addPieza()">Guardar pieza</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let piezas = JSON.parse(localStorage.getItem('qs_piezas') || '[]');
+
+function renderTable() {
+  const body = document.getElementById('trackerBody');
+  if (piezas.length === 0) {
+    body.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-icon">📋</div>Aún no hay piezas registradas. Añade la primera cuando publiques.</div></td></tr>`;
+    return;
+  }
+  const typeClass = { carrusel: 'type-carrusel', video: 'type-video', short: 'type-short', post: 'type-post' };
+  const typeLabel = { carrusel: 'Carrusel', video: 'Vídeo', short: 'Short', post: 'Post' };
+  body.innerHTML = piezas.slice().reverse().map((p, i) => `
+    <tr>
+      <td style="font-family:var(--mono);font-size:0.72rem;white-space:nowrap">${p.fecha || '—'}</td>
+      <td style="max-width:200px">${p.titulo}</td>
+      <td><span class="type-badge ${typeClass[p.tipo]}">${typeLabel[p.tipo]}</span></td>
+      <td style="font-size:0.78rem">${p.plataforma}</td>
+      <td style="font-family:var(--mono);font-size:0.72rem">${p.hora || '—'}</td>
+      <td>${'⭐'.repeat(parseInt(p.rating))}</td>
+      <td style="font-size:0.75rem;color:var(--muted);max-width:180px">${p.notas || '—'}</td>
+    </tr>
+  `).join('');
+}
+
+function openModal() {
+  document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function addPieza() {
+  const titulo = document.getElementById('f-titulo').value.trim();
+  if (!titulo) { alert('El título es obligatorio'); return; }
+  piezas.push({
+    titulo,
+    fecha: document.getElementById('f-fecha').value,
+    hora: document.getElementById('f-hora').value,
+    tipo: document.getElementById('f-tipo').value,
+    plataforma: document.getElementById('f-plataforma').value,
+    rating: document.getElementById('f-rating').value,
+    notas: document.getElementById('f-notas').value.trim(),
+  });
+  localStorage.setItem('qs_piezas', JSON.stringify(piezas));
+  document.getElementById('f-titulo').value = '';
+  document.getElementById('f-notas').value = '';
+  closeModal();
+  renderTable();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+renderTable();
+</script>
+</body>
+</html>
