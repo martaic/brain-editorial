@@ -1,8 +1,8 @@
-# QuantumSec — Brain Editorial 🧠
+# QuantumSec — Brain Editorial 
 
-Sistema de inteligencia editorial para la estrategia de contenido en redes sociales de QuantumSec SL.
+Sistema de inteligencia editorial para la estrategia de contenido en redes sociales de QuantumSec
 
-🌐 **Ver online:** [martaic.github.io/brain-editorial](https://martaic.github.io/brain-editorial)
+ **Ver online:** [martaic.github.io/brain-editorial](https://martaic.github.io/brain-editorial)
 
 ---
 
@@ -14,22 +14,22 @@ El Brain Editorial centraliza toda la información estratégica necesaria para p
 
 ## Qué incluye
 
-### 📅 Mejores horarios
+###  Mejores horarios
 Mapa visual de cuándo publicar en LinkedIn e Instagram para maximizar el alcance orgánico en España. Diferenciado por día de la semana y franja horaria, con niveles óptimo, bueno y evitar.
 
-### 📊 Rendimiento por formato
+###  Rendimiento por formato
 Ranking de los 6 formatos principales — carrusel, Reel, vídeo animado, post de texto, imagen e historias — con valoración y explicación de cuándo usar cada uno para ciberseguridad B2B.
 
 ### # Hashtags por plataforma
 Lista completa de hashtags organizada por plataforma (LinkedIn vs Instagram) y nivel de relevancia, con datos de seguidores reales y combinaciones ideales para cada tipo de post.
 
-### 💡 Insights del sector
+###  Insights del sector
 6 aprendizajes clave basados en estudios de Sprout Social, Metricool, Buffer y otros, específicos para contenido B2B de tecnología y ciberseguridad en España.
 
-### 📋 Tracker de contenido
+### Tracker de contenido
 Tabla donde registrar cada pieza publicada con fecha, horario, tipo, plataforma, valoración y notas. Los datos se guardan en el navegador (localStorage).
 
-### 🎯 KPIs objetivo
+###  KPIs objetivo
 Panel con los indicadores clave del proyecto según el framework Content OS de QuantumSec: piezas por semana, tiempo de producción, tasa de aprobación, hook rate y consistencia del design system.
 
 ---
@@ -42,7 +42,7 @@ Panel con los indicadores clave del proyecto según el framework Content OS de Q
 4. Añade notas sobre qué funcionó o qué mejorar
 5. Los datos se guardan automáticamente en el navegador
 
-> ⚠️ Los datos del tracker se guardan en localStorage del navegador — no se sincronizan entre dispositivos. Si cambias de ordenador, los datos no estarán disponibles.
+>  Los datos del tracker se guardan en localStorage del navegador — no se sincronizan entre dispositivos. Si cambias de ordenador, los datos no estarán disponibles.
 
 ---
 
@@ -104,4 +104,4 @@ Este repositorio forma parte del **Content OS de QuantumSec** — fase F2 (Brain
 
 ---
 
-*QuantumSec SL · Documento interno · Uso exclusivo del equipo de contenido*
+
