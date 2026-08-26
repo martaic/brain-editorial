@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuantumSec — Brain Editorial</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root {
   --bg: #06010F;
@@ -26,7 +27,7 @@
 html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
-/* TOPBAR */
+
 .topbar { position: sticky; top: 0; z-index: 100; background: rgba(6,1,15,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0.9rem 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .logo { font-family: var(--mono); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; color: var(--green); }
 .logo span { color: var(--muted); }
@@ -34,14 +35,14 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 .nav a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; padding: 0.3rem 0.7rem; border-radius: 6px; border: 1px solid var(--border); transition: all .2s; }
 .nav a:hover { color: var(--green); border-color: var(--green); background: rgba(168,255,62,0.08); }
 
-/* HERO */
+
 .hero { padding: 3rem 1.5rem 2rem; border-bottom: 1px solid var(--border); }
 .hero-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.75rem; }
 .hero-title { font-size: 2.2rem; font-weight: 700; line-height: 1.15; margin-bottom: 0.5rem; }
 .hero-title em { font-style: normal; color: var(--cyan); }
 .hero-sub { font-size: 0.9rem; color: var(--muted); max-width: 600px; line-height: 1.6; }
 
-/* SECCIONES */
+
 .section { padding: 2rem 1.5rem; border-bottom: 1px solid var(--border); }
 .section-header { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.5rem; }
 .section-title { font-size: 1.1rem; font-weight: 700; }
@@ -52,7 +53,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 .badge-purple { background: rgba(185,127,255,0.15); color: var(--purple); border: 1px solid rgba(185,127,255,0.3); }
 .badge-pink { background: rgba(255,46,154,0.15); color: var(--pink); border: 1px solid rgba(255,46,154,0.3); }
 
-/* GRID HORARIOS */
+
 .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 @media (max-width: 700px) { .platform-grid { grid-template-columns: 1fr; } }
 
@@ -62,7 +63,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 .dot-linkedin { background: #0A66C2; }
 .dot-instagram { background: #E1306C; }
 
-/* GRID HORARIOS POR DÍA */
+
 .day-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem; margin-bottom: 1rem; }
 .day-col { display: flex; flex-direction: column; gap: 0.3rem; }
 .day-label { font-family: var(--mono); font-size: 0.6rem; text-align: center; color: var(--muted); text-transform: uppercase; margin-bottom: 0.3rem; }
@@ -75,21 +76,21 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 .legend-item { display: flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
 .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
 
-/* TABLA FORMATOS */
+
 .format-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
 .format-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
 .format-type { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
 .format-score { font-size: 1.8rem; font-weight: 700; line-height: 1; margin-bottom: 0.4rem; }
 .format-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
 
-/* HASHTAGS */
+
 .hashtag-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .hashtag { font-family: var(--mono); font-size: 0.72rem; padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--panel); border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all .2s; }
 .hashtag:hover { color: var(--cyan); border-color: var(--cyan); background: rgba(41,241,255,0.08); }
 .hashtag.top { color: var(--green); border-color: rgba(168,255,62,0.4); background: rgba(168,255,62,0.08); }
 .hashtag.med { color: var(--yellow); border-color: rgba(255,217,61,0.3); background: rgba(255,217,61,0.06); }
 
-/* TABLA INSIGHTS */
+
 .insight-list { display: flex; flex-direction: column; gap: 0.75rem; }
 .insight { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; display: flex; gap: 1rem; align-items: flex-start; }
 .insight-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
@@ -98,7 +99,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 .insight-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
 .insight-source { font-family: var(--mono); font-size: 0.6rem; color: var(--purple); margin-top: 0.4rem; }
 
-/* TRACKER */
+
 .tracker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
 .btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; padding: 0.45rem 1rem; border-radius: 8px; cursor: pointer; border: none; transition: all .2s; }
 .btn-primary { background: rgba(168,255,62,0.15); color: var(--green); border: 1px solid rgba(168,255,62,0.4); }
@@ -120,7 +121,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 .star { color: var(--yellow); font-size: 0.8rem; }
 .star.empty { color: var(--border); }
 
-/* MODAL */
+
 .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(6,1,15,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
 .modal-overlay.open { display: flex; }
 .modal { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; max-width: 480px; width: 100%; padding: 1.5rem; }
@@ -137,7 +138,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem; }
 .btn-cancel { background: var(--card); color: var(--muted); border: 1px solid var(--border); }
 
-/* KPIs */
+
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; }
 .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
 .kpi-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
@@ -145,7 +146,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 .kpi-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; }
 .kpi-target { font-family: var(--mono); font-size: 0.6rem; color: var(--purple); margin-top: 0.2rem; }
 
-/* EMPTY */
+
 .empty { text-align: center; padding: 3rem 1rem; color: var(--muted); font-family: var(--mono); font-size: 0.8rem; }
 .empty-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4; }
 
@@ -172,7 +173,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
   <p class="hero-sub">Datos actualizados 2026 sobre horarios, formatos, hashtags y rendimiento para LinkedIn e Instagram. Sin acceso a Analytics — basado en estudios de mercado del sector.</p>
 </div>
 
-<!-- HORARIOS -->
+
 <section class="section" id="horarios">
   <div class="section-header">
     <h2 class="section-title">Mejores horarios</h2>
@@ -181,7 +182,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 
   <div class="platform-grid">
 
-    <!-- LINKEDIN -->
+   
     <div class="platform-card">
       <div class="platform-name">
         <div class="dot dot-linkedin"></div>
@@ -236,7 +237,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
       </div>
     </div>
 
-    <!-- INSTAGRAM -->
+  
     <div class="platform-card">
       <div class="platform-name">
         <div class="dot dot-instagram"></div>
@@ -294,7 +295,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
   </div>
 </section>
 
-<!-- FORMATOS -->
+
 <section class="section" id="formatos">
   <div class="section-header">
     <h2 class="section-title">Rendimiento por formato</h2>
@@ -335,14 +336,14 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
   </div>
 </section>
 
-<!-- HASHTAGS -->
+
 <section class="section" id="hashtags">
   <div class="section-header">
     <h2 class="section-title">Hashtags recomendados</h2>
     <span class="section-badge badge-yellow">Por plataforma 2026</span>
   </div>
 
-  <!-- LINKEDIN -->
+  
   <div style="margin-bottom:2rem">
     <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
       <div style="width:10px;height:10px;border-radius:50%;background:#0A66C2"></div>
@@ -467,7 +468,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
   </div>
 </section>
 
-<!-- INSIGHTS -->
+
 <section class="section" id="insights">
   <div class="section-header">
     <h2 class="section-title">Insights del sector</h2>
@@ -476,7 +477,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
 
   <div class="insight-list">
     <div class="insight">
-      <div class="insight-icon">⚡</div>
+      <i class="fa-solid fa-hourglass-half"></i>
       <div class="insight-body">
         <div class="insight-title">Los primeros 60-90 minutos son decisivos en LinkedIn</div>
         <div class="insight-desc">El algoritmo evalúa el engagement inicial para decidir si amplía el alcance. Publicar en horario óptimo puede generar hasta un 48% más de impresiones que en horario muerto.</div>
@@ -484,7 +485,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
       </div>
     </div>
     <div class="insight">
-      <div class="insight-icon">🎯</div>
+      <i class="fa-solid fa-calendar-days"></i>
       <div class="insight-body">
         <div class="insight-title">Nunca publicar dos posts en LinkedIn con menos de 18h de separación</div>
         <div class="insight-desc">El algoritmo penaliza la saturación. Un post por día máximo. La consistencia semanal importa más que el volumen diario.</div>
@@ -492,7 +493,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
       </div>
     </div>
     <div class="insight">
-      <div class="insight-icon">📱</div>
+      <i class="fa-solid fa-photo-film"></i>
       <div class="insight-body">
         <div class="insight-title">Los Reels de menos de 30 segundos superan a los largos en ciberseguridad</div>
         <div class="insight-desc">El contenido técnico B2B funciona mejor corto y directo. Hook en los primeros 3 segundos obligatorio. El dato impactante al inicio retiene más que la introducción explicativa.</div>
@@ -500,7 +501,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
       </div>
     </div>
     <div class="insight">
-      <div class="insight-icon">🔁</div>
+      <i class="fa-solid fa-layer-group"></i>
       <div class="insight-body">
         <div class="insight-title">El carrusel genera 3x más guardados que el post de imagen en LinkedIn</div>
         <div class="insight-desc">Los guardados son la señal de calidad más valorada por el algoritmo de LinkedIn. Un carrusel educativo sobre NIS2, RGPD o ransomware con datos reales genera autoridad y alcance.</div>
@@ -508,7 +509,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
       </div>
     </div>
     <div class="insight">
-      <div class="insight-icon">📊</div>
+      <i class="fa-solid fa-chart-line"></i>
       <div class="insight-body">
         <div class="insight-title">Tecnología B2B: martes a jueves 10:00-13:00 en Instagram</div>
         <div class="insight-desc">Los profesionales de IT y seguridad consultan Instagram durante pausas laborales. El contenido de ciberseguridad B2B rinde mejor en horario de oficina que por la noche.</div>
@@ -516,7 +517,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
       </div>
     </div>
     <div class="insight">
-      <div class="insight-icon">🚫</div>
+      <i class="fa-solid fa-ban"></i>
       <div class="insight-body">
         <div class="insight-title">Evitar publicar en LinkedIn los lunes y viernes</div>
         <div class="insight-desc">El engagement cae un 30-50% los lunes (la gente arranca la semana) y los viernes (modo desconexión). Sábado y domingo son prácticamente territorio muerto para B2B.</div>
@@ -526,7 +527,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
   </div>
 </section>
 
-<!-- TRACKER -->
+
 <section class="section" id="tracker">
   <div class="tracker-header">
     <div class="section-header" style="margin-bottom:0">
@@ -553,7 +554,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
         <tr>
           <td colspan="7">
             <div class="empty">
-              <div class="empty-icon">📋</div>
+            <i class="fa-regular fa-file-video"></i>
               Aún no hay piezas registradas. Añade la primera cuando publiques.
             </div>
           </td>
@@ -610,7 +611,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); min-
   </div>
 </section>
 
-<!-- MODAL AÑADIR PIEZA -->
+
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
   <div class="modal">
     <div class="modal-header">
@@ -677,7 +678,7 @@ let piezas = JSON.parse(localStorage.getItem('qs_piezas') || '[]');
 function renderTable() {
   const body = document.getElementById('trackerBody');
   if (piezas.length === 0) {
-    body.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-icon">📋</div>Aún no hay piezas registradas. Añade la primera cuando publiques.</div></td></tr>`;
+    body.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-icon"><i class="fa-regular fa-file-video"></i></div>Aún no hay piezas registradas. Añade la primera cuando publiques.</div></td></tr>`;
     return;
   }
   const typeClass = { carrusel: 'type-carrusel', video: 'type-video', short: 'type-short', post: 'type-post' };
